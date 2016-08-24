@@ -7,21 +7,25 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import view.CameraController;
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		
+		CameraController controller;
+		
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Camera.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader();
+			BorderPane root = (BorderPane)fxmlLoader.load(getClass().getResource("/view/Camera.fxml").openStream());
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
+			controller = (CameraController)fxmlLoader.getController();
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		          public void handle(WindowEvent we) {
-		              System.out.println("Stage is closing");
+		        	 controller.stopCamera();
 		          }
 		      });
 		} catch(Exception e) {
